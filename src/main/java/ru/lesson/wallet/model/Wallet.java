@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
-@Table(name = "wallet")
+@Table(name = "wallets")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

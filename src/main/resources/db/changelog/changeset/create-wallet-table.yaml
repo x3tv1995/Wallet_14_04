@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Anton Dolgov
+      changes:
+        - createTable:
+            tableName: wallets
+            columns:
+              - column:
+                  name: wallet_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: balance
+                  type: DECIMAL(19,2)
+                  constraints:
+                    nullable: false
+                  defaultValue: 0.00
+              - column:
+                  name: some_other_field
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: 2
+      author: Anton Dolgov
+      changes:
+        - insert:
+            tableName: wallets
+            columns:
+              - column:
+                  name: wallet_id
+                  value: "a1b2c3d4-e5f6-7890-1234-567890abcdef"
+              - column:
+                  name: balance
+                  value: "100.00"
+              - column:
+                  name: some_other_field
+                  value: "Initial Value"
+        - insert:
+            tableName: wallets
+            columns:
+              - column:
+                  name: wallet_id
+                  value: "fedcba98-7654-3210-0fed-cba987654321"
+              - column:
+                  name: balance
+                  value: "50.50"
+              - column:
+                  name: some_other_field
+                  value: "Another Value"
+

@@ -1,10 +1,13 @@
 package ru.lesson.wallet.globalException;
 
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.lesson.wallet.myException.MinusBalanceException;
+import ru.lesson.wallet.myException.WalletNotFoundException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +22,7 @@ public class GlobalExceptionHandler {
                     errors.put(error.getField(), error.getDefaultMessage());
                 });
 
-        return ResponseEntity.badRequest().body(errors);
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException ex) {
@@ -30,6 +33,19 @@ public class GlobalExceptionHandler {
             errors.put(propertyPath, message);
         });
         return ResponseEntity.badRequest().body(errors);
+    }
+    @ExceptionHandler(MinusBalanceException.class)
+    public ResponseEntity<Map<String, String>> handleMinusBalanceException(MinusBalanceException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("message", "Недостаточно средств: " + ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(WalletNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleNotFoundWalletException(WalletNotFoundException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("message", "Кошелёк не найден: " + ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
 }

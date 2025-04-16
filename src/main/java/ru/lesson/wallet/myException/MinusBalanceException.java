@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class MinusBalanceException extends Exception {
-    public MinusBalanceException(BigDecimal balance, BigDecimal sum) {
-        super("Недостаточно средств на счёте \n Баланс: " + balance + "\n Сумма: " + sum);
+    public MinusBalanceException(BigDecimal balance) {
+        super("Ваш Баланс: " + balance);
     }
 }
